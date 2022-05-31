@@ -1,20 +1,13 @@
-console.log('0');
+console.log('i');
 try {
-    if (window.location.href.includes('msg.urbtix.hk')) {
-        console.log('1');
-        location.href = 'https://ticket.urbtix.hk/internet/';
-    } else if (window.location.href.includes('busy.urbtix.hk')) {
-        console.log('2');
-        location.href = 'https://ticket.urbtix.hk/internet/';
-    } else if (window.location.href.includes('redirect.html')) {
-        console.log('3');
-        location.href = 'https://ticket.urbtix.hk/internet/';
-    } else if (document.querySelector('h1').textContent.includes('imeout')) {
-        console.log('4');
-        location.href = 'http://ticket.urbtix.hk/internet/';
-    } else if (document.querySelector('.error-code').textContent.includes('TIMED_OUT')) {
-        console.log('5');
-        location.href = 'http://ticket.urbtix.hk/internet/';
+    if (window.location.href=='http://msg.urbtix.hk/') {
+        console.log('m');
+        location.href = 'http://www.urbtix.hk/';
+    } else if (window.location.href=='http://busy.urbtix.hk/') {
+        console.log('b');
+        location.href = 'http://www.urbtix.hk/';
+    } else if (window.location.href=='https://ticket.urbtix.hk/'){
+        alert('ticket');
     }
 } catch (e) {
     console.log('6');

@@ -1,7 +1,7 @@
 {
   "name": "Mirror Helper",
-  "description": "Still testing",
-  "version": "0.1",
+  "description": "WE.WILL next time.",
+  "version": "1.0",
   "manifest_version": 3,
   "permissions": ["activeTab", "scripting"],
   "content_scripts": [
