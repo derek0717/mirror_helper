@@ -1,0 +1,13 @@
+{
+  "name": "Mirror Helper",
+  "description": "Still testing",
+  "version": "0.1",
+  "manifest_version": 3,
+  "permissions": ["activeTab", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["https://*.urbtix.hk/*","http://*.urbtix.hk/*"],
+      "js": ["main.js"]
+    }
+  ]
+}
