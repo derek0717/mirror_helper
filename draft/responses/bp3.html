@@ -1,0 +1,279 @@
+
+
+<html>
+<head>
+  <title>URBTIX</title>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="PRAGMA" content="NO-CACHE">
+  <meta name="robots" content="noindex,nofollow">
+
+  <style>
+    .anylinkcss{ position:absolute; visibility: hidden; font:lighter normal 12px/20px
+    "Arial", "Helvetica", "sans-serif"; z-index: 100; width: 102px; ; clip: rect(
+    ) ; text-decoration: none; clear: none; float: none; list-style-type: none ; color:
+            #FFFFFF } .anylinkcss a{ width: 100%; display: block; text-indent: 3px; border-bottom:
+            none; padding: 1px 0; text-decoration: none; font-weight: bold; text-indent: 5px;
+                      } .anylinkcss a:hover{ /*hover background color*/ background-color: C27201; color:
+            white; }.text { font-family: "Arial", "Helvetica", "sans-serif"; font-size:
+            12px; font-style: normal; font-weight: lighter; font-variant: normal; text-decoration:
+            none; color: #FFFFFF} .menubar_text { font-family: "Arial", "Helvetica", "sans-serif";
+                                    font-size: 12px; font-style: normal; font-weight: lighter; font-variant: normal;
+                                    text-decoration: none; color: #333333} .show_name { font-family: "Arial", "Helvetica", "sans-serif";
+                                                                             font-size: 12px; font-weight: bold; color: #FF6600; text-decoration: none} .footer
+                                                                                                                                                        { font-family: "Arial", "Helvetica", "sans-serif"; font-size: 10px; text-decoration:
+              none} .event_text {  font-family:  Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #454545; font-weight: 550;}
+    .bold_text_header { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: 500; color: B03A3A; text-decoration: none}
+    .bold_big_text_header { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 18px; font-weight: 500; color: #e88080; text-decoration: none}
+    #body { background: white url(../images/line_pattern4.gif) fixed;}
+    td.withformbg {background-image: url(../images/formbg1.jpg) ;
+      height:480px;
+      background-repeat: no-repeat;
+    }
+    table.withBgColor { background-color: #F1F1F1;}
+    table.withLGrayBdColor{
+      background-color: #e8e9ea;
+    }
+    tr.withLGrayBdColor{
+      background-color: #e8e9ea;
+    }
+    tr.withDGrayBdColor{
+      background-color: #c1c4c6;
+    }
+    tr.underline{
+      background-color: #E05C5C;
+    }
+    td.underline{
+      background-color: #E05C5C;
+    }
+    tr.underlineGray{
+      background-color: #c1c4c6;
+    }
+    table.withDGrayBdColor{
+      background-color: #c1c4c6;
+    }
+    A.all:link {text-decoration: none; color:black}
+    A.all:visited {text-decoration: none; color:black}
+    A.all:active {text-decoration: none}
+    A.all:hover {text-decoration: underline;}
+    HR.dotted {border-color: #d8d8d8; border-width: thin; border-style: dotted;}
+
+    /* loading screen after submit */
+    #loadingDiv{
+      position:absolute;
+      z-index:9;
+      top:0;left:0;
+      opacity:0.70;
+      -moz-opacity:0.70;
+      filter:alpha(opacity=70);
+      background-color:#ffffff;
+      background-repeat: no-repeat;
+      background-position: center center;
+      display: none;
+    }
+  </style>
+
+  <script language="JavaScript">
+    var isChildWin = false;
+
+    function isSessionWindow() {
+      //	return window.name == sessionWindowName;
+      return true;
+    }
+
+    function disableKeyPress() {
+      if(document.all){ //ie has to block in the key down
+        document.onkeydown = onKeyPress;
+      } else if (document.layers || document.getElementById){ //NS and mozilla have to block in the key press
+        document.onkeypress = onKeyPress;
+      }
+    }
+
+    function onKeyPress(evt) {
+      window.status = '';
+      //get the event object
+      var oEvent = (window.event) ? window.event : evt;
+
+      var nKeyCode =  oEvent.keyCode ? oEvent.keyCode :
+              oEvent.which ? oEvent.which :
+                      void 0;
+
+      var bIsFunctionKey = false;
+
+      if(oEvent.charCode == null || oEvent.charCode == 0){
+        bIsFunctionKey = (nKeyCode >= asciiF2 && nKeyCode <= asciiF12) ||
+                (
+                        nKeyCode == asciiALT
+                        || nKeyCode == asciiMS
+                        || nKeyCode == asciiView
+                        || nKeyCode == asciiHome
+                        || nKeyCode == asciiBack
+                )
+      }
+
+      var sChar = String.fromCharCode(nKeyCode).toUpperCase();
+      var oTarget = (oEvent.target) ? oEvent.target : oEvent.srcElement;
+      var sTag = oTarget.tagName.toLowerCase();
+      var sTagType = oTarget.getAttribute("type");
+
+      var bAltPressed = (oEvent.altKey) ? oEvent.altKey : oEvent.modifiers & 1 > 0;
+      var bShiftPressed = (oEvent.shiftKey) ? oEvent.shiftKey : oEvent.modifiers & 4 > 0;
+      var bCtrlPressed = (oEvent.ctrlKey) ? oEvent.ctrlKey : oEvent.modifiers & 2 > 0;
+      var bRet = true;
+
+      if (sTagType != null) {
+        sTagType = sTagType.toLowerCase();
+      }
+
+      //allow these keys inside a text box
+      if	(sTag == "textarea" || (sTag == "input" && (sTagType == "text" || sTagType == "password"))) {
+        return true;
+      } else if (bAltPressed && (nKeyCode == asciiLeftArrow || nKeyCode == asciiRightArrow)){ // block alt + left or right arrow
+        bRet = false;
+      } else if (bCtrlPressed && (sChar == 'N' || sChar == 'R' || sChar == 'P')){ // Disable Ctrl-N, Ctrl-O, Ctrl-P
+        bRet = false;
+      } else if (bIsFunctionKey){ // Capture and stop these keys
+        bRet = false;
+      }
+
+      if(!bRet){
+        try{
+          oEvent.returnValue = false;
+          oEvent.cancelBubble = true;
+
+          if(document.all){ //IE
+            oEvent.keyCode = 0;
+          }else{ //NS
+            oEvent.preventDefault();
+            oEvent.stopPropagation();
+          }
+        }catch(ex){
+        }
+      }
+      return bRet;
+    }
+
+    function disableClick() {
+      document.oncontextmenu = function(){return false}
+    }
+
+    if ( isSessionWindow() ) {
+      disableKeyPress();
+      disableClick();
+    }
+
+    function delayer(){
+      document.getElementById("toMainButton").disabled = false;
+    }
+
+    function exitPage() {
+//	window.location.href = "http://www.urbtix.hk";
+      window.location.reload(true);
+    }
+  </script>
+
+</head>
+
+<body class="bgImage" onLoad="setTimeout('delayer()', 1000)" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"  >
+
+<div id="loadingDiv"></div>
+
+<table class="bg_pattern" width="760" border="0" cellspacing="0" cellpadding="0" align="center" height="100%">
+  <tr>
+    <td valign="top" rowspan="2">&nbsp; </td>
+    <td valign="top" bgcolor="#FFFFFF" width="746" >
+      <table width="746" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <td>
+
+            <!-- End of new design table td  -->
+
+            <!-- header -->
+            <p class="anylinkcss">&nbsp;</p>
+            <p class="anylinkcss">&nbsp;</p>
+
+
+            <!-- Main body information -->
+            <table width="746" height="50" border="0" cellpadding="0"
+                   cellspacing="0" align="center">
+              <tr>
+                <td align="left">
+                  <br><BR>
+                  <span class="bold_big_text_header">URBTIX 城市電腦售票網 (Super aFlex Server 3)</span>
+              </tr>
+            </table>
+            <table width="640" border="0" cellspacing="0" cellpadding="0" align="center">
+
+              <tr>
+                <td align="left">
+                  <br><BR>
+                  <span class="bold_text_header">Server Busy</span>
+                </td>
+              </tr>
+
+              <tr class="underline">
+                <td colspan="2" align="left" width="1" height="1"></td>
+              </tr>
+              <tr>
+                <td>
+                  <br>
+                  <table width="640" border="0" cellspacing="3" cellpadding="3" align="center">
+                    <tr valign="middle">
+                      <td width='5%' align='center' valign="top"><font size='3'>‧</font></td>
+                      <td class="event_text"><font size="2">All Internet ticketing slots are currently taken up by customers. Please access again.<br>
+                        Bookings are also available from the credit card booking hotline 2111 5999 <BR>(Mondays to Sundays, including public holidays 10:00am - 8:00pm).</font></td>
+                    </tr>
+                    <tr valign="middle">
+                      <td width='5%' align='center' valign="top"><font size='3'>‧</font></td>
+                      <td class="event_text"><font size="2">所有網上購票連結正由其他顧客使用中，請再次登入。<BR>
+                        閣下亦可使用信用咭電話訂票熱線 (852) 2111 5999 <BR>
+                        (辦公時間:星期一至日(包括公眾假期)上午十時至晚上八時)
+                      </font></td>
+                    </tr>
+                    <tr valign="middle">
+                      <td width='5%' align='center' valign="top"><font size='3'>‧</font></td>
+                      <td class="event_text"><font size="2">所有网上购票连结正由其他顾客使用中，请再次登入。<BR>
+                        阁下亦可使用信用咭电话订票热线 (852) 2111 5999 <BR>
+                        (办公时间:星期一至日(包括公众假期)上午十时至晚上八时)
+                      </font></td>
+                    </tr>
+                  </table>
+                  <br>
+                  <table align="center">
+                    <tr>
+                      <td width="70"><input id="toMainButton" type="submit" value="Retry/再次登入" disabled onclick="javascript:exitPage()"></td>
+                    </tr>
+                  </TABLE>
+                  <br>
+                </td>
+              </tr>
+            </table>
+            <!-- footer -->
+
+
+            <p class="anylinkcss">&nbsp;</p>
+
+            <table width="730" border="0" cellspacing="0" cellpadding="0" align="center" bgcolor="white" height="41">
+
+              <tr><td colspan="2"><hr class="dotted" align="center" width="705"></td></tr>
+              <tr valign="middle">
+                <td width="2">&nbsp;</td>
+                <td width="697" valign="middle" class="footer">
+                  URBTIX ticketing services provided and operated by Cityline<br>
+                  (c) Cityline (Hong Kong) Ltd 1998 - <script language="Javascript1.2">document.write((new Date()).getFullYear());</script> . All rights reserved.
+                </td>
+              </tr>
+            </table>
+
+            <!-- start of new design -->
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td valign="top" rowspan="2">&nbsp;</td>
+  </tr>
+</table>
+
+</body>
+</html>
+

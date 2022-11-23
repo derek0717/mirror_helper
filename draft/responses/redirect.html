@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <!--  <meta http-equiv="refresh" content="0; url=http://busy.urbtix.hk/redirect.html">-->
+  <link href="/internet/images/favicon.ico" rel="icon" type="image/x-icon">
+  <link href="/internet/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <title>城市售票網 - 更新您的書簽</title>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta content="NO-CACHE" http-equiv="PRAGMA">
+  <meta content="NO-STORE" http-equiv="CACHE-CONTROL">
+  <meta content="NO-CACHE" http-equiv="CACHE-CONTROL">
+  <meta content="0" http-equiv="Expires">
+  <meta name="description" content="城市售票網票務系統是購票通 (香港) 有限公司為康文署發展的專業票務系統">
+  <meta name="keywords" content="票務,網上購票,城市售票網,購票通">
+  <meta name="robots" content="noindex,nofollow">
+
+  <script type="text/javascript">
+    function makeid(length) {
+      var result           = '';
+      var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      var charactersLength = characters.length;
+      for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+    }
+
+    function getURLParameter() {
+      var url = location.search;
+      if (url.indexOf('=')>-1){
+        var param = url.substring(url.indexOf('=')+1, url.length);
+        return param;
+      }else{
+        return "http://www.urbtix.hk";
+      }
+    }
+
+    function redirect(){
+      var url = location.search;
+      if (url.indexOf('p=')>-1){
+        //alert(url);
+        document.getElementById("container").style.display = "block";
+      }else{
+        var destination=getURLParameter();
+        destination = destination.replace("%3F", "?");
+        if (destination.indexOf('?')>-1){
+          var destination=destination+'&p='+makeid(20);
+        }else{
+          var destination=destination+'?p='+makeid(20);
+        }
+
+        //alert(destination);
+        window.location="http://www.urbtix.hk"+destination;
+      }
+    }
+
+    function bookmark(title,url){
+      if (window.sidebar) { // Mozilla Firefox Bookmark
+        window.sidebar.addPanel(title, url,"");
+      } else if( window.external ) { // IE Favorite
+        window.external.AddFavorite( url, title);
+      } else if(window.opera && window.print) { // Opera Hotlist
+        var elem = document.createElement('a');
+        elem.setAttribute('href',url);
+        elem.setAttribute('title',title);
+        elem.setAttribute('rel','sidebar');
+        elem.click();
+      }
+    }
+
+    function createbookmarkeng(title, url){
+      if ((window.opera && window.print) || (document.all)) {
+        var a = document.createElement('a');
+        a.innerHTML = "update your bookmark";
+        a.setAttribute("title", "update your bookmark");
+        a.setAttribute("href", "javascript:bookmark('" + title + "', '" + url + "');");
+        document.getElementById('bookmarkeng').innerHTML = "&nbsp;or&nbsp;";
+        document.getElementById('bookmarkeng').appendChild(a);
+      } else {
+        document.getElementById('bookmarkeng').innerHTML = "  or <a href=\"javascript:bookmark('"+title+"', '"+url+"');\">update your bookmark</a>";
+      }
+    }
+
+    function createbookmarktw(title, url){
+
+      if ((window.opera && window.print) || (document.all)) {
+        var a = document.createElement('a');
+        a.innerHTML = "更新您的書簽";
+        a.setAttribute("title", "更新您的書簽");
+        a.setAttribute("href", "javascript:bookmark('" + title + "', '" + url + "');");
+        document.getElementById('bookmarktw').innerHTML = "或";
+        document.getElementById('bookmarktw').appendChild(a);
+      } else {
+        document.getElementById('bookmarktw').innerHTML = "或<a href=\"javascript:bookmark('"+title+"', '"+url+"');\">更新您的書簽</a>";
+      }
+    }
+
+    function createbookmarkcn(title, url){
+
+      if ((window.opera && window.print) || (document.all)) {
+        var a = document.createElement('a');
+        a.innerHTML = "更新您的书签";
+        a.setAttribute("title", "更新您的书签");
+        a.setAttribute("href", "javascript:bookmark('" + title + "', '" + url + "');");
+        document.getElementById('bookmarkcn').innerHTML = "或";
+        document.getElementById('bookmarkcn').appendChild(a);
+      } else {
+        document.getElementById('bookmarkcn').innerHTML = "或<a href=\"javascript:bookmark('"+title+"', '"+url+"');\">更新您的书签</a>";
+      }
+    }
+  </script>
+
+
+  <style>
+    html,body {
+      background: none repeat scroll 0 0 #FFF;
+      color: #000000;
+    }
+    html {
+      background: url("images/main/main_bg.jpg") repeat scroll 0 0;
+    }
+    body {
+      border-left: 2px solid #E0E0E0;
+      border-right: 2px solid #E0E0E0;
+      font-family: Verdana, Arial, Helvetica, sans-serif;
+      margin-left: 15%;
+      margin-right: 15%;
+      margin: 0 auto;
+      width: 895px;
+      height: auto;
+      padding-bottom: 10px;
+      min-height: 924px;
+    }
+    div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td
+    {
+      margin: 0px;
+      padding: 0px;
+    }
+    img {
+      vertical-align: middle;
+      border: 0px;
+    }
+    a:hover {
+      cursor: pointer
+    }
+    .cursor-pointer {
+      cursor: pointer
+    }
+
+    .cursor-default {
+      cursor: default
+    }
+    .header {
+      height: 155px;
+      position: relative;
+      top: 0px;
+      left: 0px;
+      background: url("images/logo/urbtix_header.jpg") no-repeat -23px 0;
+      background-size: 929px 135px;
+      background-image: url("images/logo/urbtix_header.jpg") \9;
+      background-position: 50% 0% \9;
+      background-attachment: scroll \9;
+      background-repeat: no-repeat \9;
+      padding-right : 10px;
+    }
+    #logo {
+      float: left;
+      position: relative;
+      margin: 29px 0px 0px 20px;
+    }
+    #cityline-logo {
+      float: right;
+      position: relative;
+      top: 39px;
+    }
+    /* Container */
+    .container {
+      width: 100%;
+      min-height: 640px;
+    }
+    .content {
+      font-size: 0.8em;
+      width: 640px;
+      border: 0;
+      margin: auto;
+    }
+    .inner-content {
+      width: 480px;
+      border: 0;
+      margin: auto;
+      border-spacing: 10;
+      border-padding: 10;
+    }
+    .table-title {
+      font-size: 1em;
+      text-decoration: underline;
+    }
+
+    .center-align{
+      text-align: center;
+    }
+    .vertical-align-middle{
+      vertical-align: middle;
+    }
+    #footer-blk{
+      font-family: "Arial", "Helvetica", "sans-serif";
+      margin: 40px auto;
+      width: 480px;
+    }
+    .dotted{
+      width: 480px;
+      border-top: 1px dotted;
+    }
+    #footer-blk p{
+      margin: 0px;
+    }
+    .small-font-size{
+      font-size: 0.5em;
+    }
+    .large-font-size{
+      font-size: 0.8em;
+    }
+    #page-header{
+      display: none;
+    }
+  </style>
+</head>
+<body onload="redirect()">
+<!-- Header -->
+<div class="header">
+  <div class="banner-blk">
+    <div id="logo">
+      <img src="images/logo/urbtix_logo_tc.png"
+           title="城市售票網" alt="城市售票網" />
+    </div>
+    <div id="cityline-logo">
+      <img src="images/logo/cityline_logo_tc.gif"
+           title="購票通網站" alt="購票通網站" />
+    </div>
+  </div>
+</div>
+
+<!-- Container -->
+<div id="container" class="container" style="display:none">
+  <h1 id="page-header">城市售票網網址</h1>
+  <table class="content">
+    <tr>
+      <td><br>
+        <table class="inner-content">
+
+          <tr class="vertical-align-middle">
+            <td class="table-title center-align"><b>城市售票網網址</b></td>
+          </tr>
+          <tr class="vertical-align-middle">
+            <td class="table-content">
+              <br>
+              您剛輸入的網址不正確或您的瀏覽器尚未開啟Cookies功能。<br />
+              請更新城市售票網網址為：<a href="http://www.urbtix.hk" title="城市售票網" alt="城市售票網">www.urbtix.hk</a> 並開啓瀏覽器的Cookies功能，以便重新進入城市售票網網站。
+              <br /><br />
+            </td>
+          </tr>
+          <tr class="vertical-align-middle">
+            <td class="table-title center-align"><b>城市售票网网址</b></td>
+          </tr>
+          <tr class="vertical-align-middle">
+            <td class="table-content">
+              <br>
+              您刚输入的网址不正确或您的浏览器尚未开启Cookies功能。<br />
+              请更新城市售票网网址为：<a href="http://www.urbtix.hk" title="城市售票网" alt="城市售票网">www.urbtix.hk</a> 并开启浏览器的Cookies功能，以便重新进入城市售票网网站。
+              <br /><br />
+            </td>
+          </tr>
+          <tr class="vertical-align-middle">
+            <td class="table-title center-align">
+              <b>URBTIX Website</b>
+            </td>
+          </tr>
+          <tr class="vertical-align-middle">
+            <td class="table-content">
+              <br>
+              Please note that the URL web address you have just entered is not correct or your browser’s Cookies has not yet been enabled.<br />
+              Please update your bookmark as: <a href="http://www.urbtix.hk" title="URBTIX Website" alt="URBTIX Website">www.urbtix.hk</a> and enable Cookies in your browser in order to access our website again.
+              <br /><br />
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <!-- footer -->
+  <div id="footer-blk">
+    <hr class="dotted">
+    <p class="large-font-size">客戶服務熱線 / 客户服务热线 / Customer Service Hotline (852) 2314 4228(每日上午十時至晚上八時 / 每日上午十时至晚上八时 / 10am – 8pm daily)</p>
+    <p class="large-font-size">電郵 / 电邮 / Email：urbtix@cityline.com.hk</p>
+    <br />
+    <p class="small-font-size">URBTIX ticketing services provided and operated by Cityline</p>
+    <p class="small-font-size">(c) Cityline (Hong Kong) Ltd 1998 - <script type="text/javascript">document.write((new Date()).getFullYear());</script> . All rights reserved.</p>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  //createbookmarkeng('URBTIX', 'http://www.urbtix.hk/internet/en_US');
+</script>
+<script type="text/javascript">
+  //createbookmarktw('城市售票網', 'http://www.urbtix.hk/internet/zh_TW');
+</script>
+<script type="text/javascript">
+  //createbookmarkcn('城市售票网', 'http://www.urbtix.hk/internet/zh_CN');
+</script>
+
+</body>
+</html>
+

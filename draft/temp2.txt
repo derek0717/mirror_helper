@@ -1,0 +1,43 @@
+
+msg.urbtix.hk
+cookies
+my-application-browser-tab: {"guid":"0963b81b-d698-80bd-6a7a-b53a680751ca","timestamp":1653990550787}
+retryPageCode:1
+
+
+GET https://ticket.urbtix.hk/
+
+REQUEST
+
+GET / HTTP/1.1
+Host: ticket.urbtix.hk
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Cookie: retryPageCode=1; TS5bf392c0027=0828494788ab2000a480dc8d1d08e9e580f3ca07fb8c3ae52a318b49d330171cc0b5e4633d4b03e40892e16b0a113000453bc77b3f8d9ec6599f658d6de1c9cd5c4817ca57e8913b2067f67c0d105076fa1cc926aaa02ba343f5037ca161ba4f; TS00000000076=0828494788ab2800fc96ce30224bf9d247cc0a7bfbab3bef0af601f8d4bdc742e8fb51ff356c559505a5b48fd0b90b4608d5f4335f09d000394cae1283ee3de9107de4014072959acb30b9dada521b1f014ed51bd12ce6141206e34c73d6bb127b7bfd4c4692ff1c0fc8461a1bb0779f03ec2eee46b4d6449ec888a4aa3e77853084157bcfa48d4637d52132d8878f943963ebe3179055fef8411c15c7ed22a2a94513fb494c549d80613362ce2575f9744159ddb0708b44c04da2431395841d824287c7722bc9c23719909ec330a76f659635c5754b01291fbb31d45e167d1473b0eb6c5ba2453b5499266dbd3eeaf0bf2b01cbee8c28826581e5fb2f618d6226e02ca2821c81d9; TSPD_101_DID=0828494788ab2800fc96ce30224bf9d247cc0a7bfbab3bef0af601f8d4bdc742e8fb51ff356c559505a5b48fd0b90b4608d5f4335f063800bb2a7218dea63af3f00f9b1347ad1b84fb00615e1fb02fc3198f7ac738282be0ea33bae8c8283bb10ca3fdbc09973bfaa9e3d4129d24d802; TSc7bbfa0c029=0828494788ab2800a0f7b11c06e77adeb11d416a836c858db43a9b14f96084d449a7c24d9c856b253fb1e31d6917454f; TSc7bbfa0c078=0828494788ab20005f8e89c2518d735d77cfd42d6b1bb3c777b7273f7595a480364ecb83fd5bd24f08b236241f18180119a6527d6de9654c940be2c3995f3113568c1239e9befe30dd7338f1c2c9c425a20e5bf9969adf84600c79753c290e11d486529f0f806ad3ebd584ad5af7e6b1349526fb7eac71397a53b43447a3a3b458dce1554841eb9cb85f7c5772ab82f2f6bbe1b7951d3b73cd6e9f844f97956a438bc14abb634d02141e3c2fe74f54560db3e7adc50156455f93a0cf7b6a0bf3121ad2f9a93378a2af8b224de1ebc8564332daa0eace874fdc3a27910193075360e952d41efda7c6a14ff9ee70be1b10e0798b67ffd632dd30d1486ff0ee573ba3f2f6a8ccbd8c37cf0482d43cac447fc8670c69cab7b910d2dc10ce0c8e9ad2d80917377e3562277d0a81376540f7f31a1e5c58a50839a9fcd016995ec734005ea91d52630dd97c
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+
+RESPONSE
+
+HTTP/1.1 302 Found
+Date: Tue, 31 May 2022 10:19:49 GMT
+Server: Apache
+X-Frame-Options: SAMEORIGIN
+X-XSS-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Location: https://ticket.urbtix.hk/internet
+Content-Length: 217
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Content-Type: text/html; charset=iso-8859-1
+P3P: CP="{}"
+Set-Cookie: TSc7bbfa0c029=0828494788ab280033a4e33a6e45e80f4614dd6463eaf0d17afdd2bd6b2477a957241223d79cf3634fccdeef7f605423; Max-Age=30;Path=/
+P3P: CP="{}"
+Set-Cookie: TS5bf392c0027=0828494788ab2000fe9815f1e49bd585bae77b57fd98d36d240b2764692b1f10a4e080f40b99d2f9088c6ee56a113000f04b5bac01a2dbaee01e6eb374208be577156a8ddc0418cb120a0e48cc7a3e33221454fedd57697ce9a345126c09cb3e;Path=/

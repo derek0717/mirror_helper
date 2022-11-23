@@ -1,0 +1,588 @@
+<html>
+<head>
+    <title>URBTIX</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="PRAGMA" content="NO-CACHE">
+    <meta name="robots" content="noindex,nofollow">
+    <meta http-equiv="Cache-Control" content="max-age=1800" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+    <script>
+        var urlHot = "http://www.urbtix.hk";
+        var urlOther = "http://www.urbtix.hk/other";
+        var cookieName = "retryPageCode";
+        var ddsScheduler = undefined;
+        var retryingMsg = "Retrying...<br>重試中...";
+        var remainTime = 4;
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var showUpdateTimeText = true;
+        var currentSoldStatusUpdateTime = "截至As at 3pm";
+        var ticketSaleStatusDefaultText = "18 240 (48.3%)";
+        var soldOutPerfDefaultText = "N/A";
+        var showAllSoldOutMsg = false;
+        var enableAutoRetry = true;
+
+        var updateStartFromMsgCht = "以上資料由上午11時";
+        var updateIntervalMsgCht = "每隔約30分鐘更新";
+        var updateStartFromMsgEng = "updated around every 30 minutes from 11am";
+        var updateIntervalMsgEng = "";
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        var hotButtonTextCht = "《MIRROR.WE.ARE LIVE CONCERT 2022》 ";
+        var hotButtonTextEng = "" ;
+        var otherButtonTextCht = "其他節目";
+        var otherButtonTextEng = "Other Events";
+        var perfNameTextCht = "《MIRROR.WE.ARE LIVE CONCERT 2022》";
+        var perfNameTextEng = "";
+        var perfDate = "25-31.7.2022 & 2-6.8.2022";
+        var ticketSaleDate = "31.5.2022 (星期二 Tuesday) / 10 am"
+        var numOfPerfCht = "12";
+        var numOfPerfEng = "12";
+        var numOfTicketCht = "37 700";
+        var numOfTicketEng = "37 700";
+        var eventNameCht = "Mirror演唱會";
+        var eventNameEng = "Mirror in concert";
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        function getRetryPageCodeFromCookie(){
+            var retryPageCode = getCookie(cookieName);
+            return retryPageCode;
+        }
+        function setRetryHotEventButtonDisable(isDisable){
+            document.getElementById("to-hot-event-btn").disabled = isDisable;
+        }
+        function setRetryOtherEventButtonDisable(isDisable){
+            document.getElementById("to-other-event-btn").disabled = isDisable;
+        }
+        function enableAllRetryButtons(){
+            setRetryHotEventButtonDisable(false);
+            setRetryOtherEventButtonDisable(false);
+        }
+        function disableAllRetryButtons(){
+            setRetryHotEventButtonDisable(true);
+            setRetryOtherEventButtonDisable(true);
+        }
+        function disableRetryButtonByRetryPageCode(retryPageCode){
+            enableAllRetryButtons();
+            if (retryPageCode == 2) {
+                setRetryOtherEventButtonDisable(true);
+            }
+            else {
+                setRetryHotEventButtonDisable(true);
+            }
+        }
+        function reloadPage(retryPageCode) {
+            if (retryPageCode == 2)
+                retryOtherPage();
+            else
+                retryHotPage();
+        }
+        function setRemainTime(sec) {
+            document.getElementById("hotRemainTime1").innerHTML = sec;
+            document.getElementById("hotRemainTime2").innerHTML = sec;
+            document.getElementById("otherRemainTime1").innerHTML = sec;
+            document.getElementById("otherRemainTime2").innerHTML = sec;
+        }
+        function showAutoClickMsg(retryPageCode) {
+            var autoClickHotEvtMsg = document.getElementById("autoClickHotEvtMsg");
+            var autoClickOtherEvtMsg = document.getElementById("autoClickOtherEvtMsg");
+            if (retryPageCode == 2) {
+                autoClickHotEvtMsg.style.display = "none";
+                autoClickOtherEvtMsg.style.display = "block";
+            }
+            else {
+                autoClickHotEvtMsg.style.display = "block";
+                autoClickOtherEvtMsg.style.display = "none";
+            }
+        }
+        function initPage(){
+            enableAllRetryButtons();
+            var retryPageCode = getRetryPageCodeFromCookie();
+            if (retryPageCode != null)
+                startRetry();
+        }
+        function setCustomPerfText(){
+            document.getElementById("to-hot-event-btn").innerHTML = hotButtonTextCht + "<br/>" + hotButtonTextEng;
+            document.getElementById("to-other-event-btn").innerHTML = otherButtonTextCht + "<br/>" + otherButtonTextEng;
+            document.getElementById("perf-name-blk").innerHTML = perfNameTextCht + "<br/>" + perfNameTextEng;
+            document.getElementById("perf-date-blk").innerHTML = perfDate;
+            document.getElementById("sales-date-blk").innerHTML = ticketSaleDate;
+            document.getElementById("num-of-perf-cht-blk").innerHTML = numOfPerfCht;
+            document.getElementById("num-of-perf-eng-blk").innerHTML = numOfPerfEng;
+            document.getElementById("num-of-perf-cht-blk2").innerHTML = numOfPerfCht;
+            document.getElementById("num-of-perf-eng-blk2").innerHTML = numOfPerfEng;
+            document.getElementById("num-of-ticket-cht-blk").innerHTML = numOfTicketCht;
+            document.getElementById("num-of-ticket-eng-blk").innerHTML = numOfTicketEng;
+            document.getElementById("event-name-cht-blk").innerHTML = eventNameCht;
+            document.getElementById("event-name-eng-blk").innerHTML = eventNameEng;
+            document.getElementById("current-sold-status-update-time").innerHTML = currentSoldStatusUpdateTime;
+            document.getElementById("ticket-sale-update-blk").innerHTML = ticketSaleStatusDefaultText;
+            document.getElementById("soldout-perf-blk").innerHTML = soldOutPerfDefaultText;
+
+            document.getElementById("update-start-from-msg-cht").innerHTML = updateStartFromMsgCht;
+            document.getElementById("update-interval-msg-cht").innerHTML = updateIntervalMsgCht;
+
+            document.getElementById("update-interval-msg-eng").innerHTML = updateStartFromMsgEng;
+            document.getElementById("update-start-from-msg-eng").innerHTML = updateIntervalMsgEng;
+
+
+            if (showUpdateTimeText) {
+                document.getElementById("current-sold-status-update-time").classList.remove("hidden");
+            }
+
+
+            if (showAllSoldOutMsg) {
+                document.getElementById("all-soldout-msg-blk").classList.remove("hidden");
+            }
+            else {
+                document.getElementById("current-sold-status-blk").classList.remove("hidden");
+            }
+        }
+        function startRetry() {
+            setRemainTime(remainTime);
+            if (enableAutoRetry){
+                if (ddsScheduler == undefined) {
+                    updateRemainTime();
+                    ddsScheduler = setInterval(function(){
+                        updateRemainTime();
+                    }, 1000);
+                }
+            }
+        }
+        function updateRemainTime() {
+            var retryPageCode = getRetryPageCodeFromCookie();
+            showAutoClickMsg(retryPageCode);
+            disableRetryButtonByRetryPageCode(retryPageCode);
+
+            if (remainTime > 0) {
+                remainTime--;
+                if (remainTime == 0) {
+                    document.getElementById("autoClickHotEvtMsg").innerHTML = retryingMsg;
+                    document.getElementById("autoClickOtherEvtMsg").innerHTML = retryingMsg;
+                }
+                else {
+                    setRemainTime(remainTime);
+                }
+            }
+            else {
+                if (ddsScheduler != undefined) {
+                    clearInterval(ddsScheduler);
+                }
+                reloadPage(retryPageCode);
+            }
+        }
+        function retryHotPage() {
+            disableAllRetryButtons();
+            setCookie(cookieName, 1);
+            window.location.href = urlHot;
+        }
+        function retryOtherPage() {
+            disableAllRetryButtons();
+            setCookie(cookieName, 2)
+            window.location.href = urlOther;
+        }
+        function setCookie(name, value) {
+            var date = new Date();
+            date.setTime(date.getTime() + (24*60*60*1000));
+            var expires = "; expires=" + date.toUTCString();
+            document.cookie = name + "=" + (value || "") + expires + "; domain=.urbtix.hk;path=/";
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ')
+                    c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0)
+                    return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+        //the function which prevent multiple tab of same page
+        (function($) {
+            $.fn.DuplicateWindow = function () {
+                var localStorageTimeout = (5) * 1000;
+                var localStorageResetInterval = (1/2) * 1000;
+                var localStorageTabKey = 'my-application-browser-tab';
+                var sessionStorageGuidKey = 'browser-tab-guid';
+
+                var ItemType = {
+                    Session: 1,
+                    Local: 2
+                };
+
+                function setCookie(name, value, days) {
+                    var expires = "";
+                    if (days) {
+                        var date = new Date();
+                        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                        expires = "; expires=" + date.toUTCString();
+                    }
+                    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+                }
+
+                function getCookie(name) {
+                    var nameEQ = name + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                    }
+                    return null;
+                }
+
+                function GetItem(itemtype) {
+                    var val = "";
+                    switch (itemtype) {
+                        case ItemType.Session:
+                            val = window.name;
+                            break;
+                        case ItemType.Local:
+                            val = decodeURIComponent(getCookie(localStorageTabKey));
+                            if (val == undefined)
+                                val = "";
+                            break;
+                    }
+                    return val;
+                }
+
+                function SetItem(itemtype, val) {
+                    switch (itemtype) {
+                        case ItemType.Session:
+                            window.name = val;
+                            break;
+                        case ItemType.Local:
+                            setCookie(localStorageTabKey, val);
+                            break;
+                    }
+                }
+
+                function createGUID() {
+                    this.s4 = function () {
+                        return Math.floor((1 + Math.random()) * 0x10000)
+                            .toString(16)
+                            .substring(1);
+                    };
+                    return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4() + this.s4() + this.s4();
+                }
+
+                function TestIfDuplicate() {
+                    var sessionGuid = GetItem(ItemType.Session) || createGUID();
+                    SetItem(ItemType.Session, sessionGuid);
+
+                    var val = GetItem(ItemType.Local);
+                    var tabObj = (val == "" ? null : JSON.parse(val)) || null;
+
+                    if (tabObj === null || (tabObj.timestamp < (new Date().getTime() - localStorageTimeout)) || tabObj.guid === sessionGuid) {
+                        function setTabObj() {
+                            var newTabObj = {
+                                guid: sessionGuid,
+                                timestamp: new Date().getTime()
+                            };
+                            SetItem(ItemType.Local, JSON.stringify(newTabObj));
+                        }
+                        setTabObj();
+                        setInterval(setTabObj, localStorageResetInterval);
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+
+                window.IsDuplicate = function () {
+                    var duplicate = TestIfDuplicate();
+                    return duplicate;
+                };
+
+                $(window).on("beforeunload", function () {
+                    if (TestIfDuplicate() == false) {
+                        SetItem(ItemType.Local, "");
+                    }
+                })
+            }
+            $(window).DuplicateWindow();
+        }(jQuery));
+
+        $(document).ready(function () {
+            if (window.IsDuplicate()) {
+                var dulMsgCht = "此頁面已在其它標籤開啟，故此自動登入被終止。";
+                var dulMsgEng = "This page will not auto-retry because it is opened on another browser tab.";
+                $("#tbl-retry-btn").parent().html(dulMsgCht + "<br>" + dulMsgEng);
+
+                if (ddsScheduler != undefined)
+                    clearInterval(ddsScheduler);
+
+                alert(dulMsgCht + "\n" + dulMsgEng);
+
+                if (ddsScheduler != undefined)
+                    clearInterval(ddsScheduler);
+            }
+            else {
+                setTimeout(initPage, 1000);
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        .pgbody {
+            width: 750px;
+            margin: 0 auto;
+        }
+        .header {
+            font-size: 18px;
+            font-weight: 500;
+            color: #e88080;
+        }
+        .page-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: B03A3A;
+        }
+        table.tbl-lv1 {
+            width: 650px;
+            margin: 0 auto;
+        }
+        #retry-btn-row td {
+            padding: 30px 0px 30px 0px;
+            text-align: center;
+        }
+        table#tbl-retry-btn {
+            text-align: center;
+            margin: auto;
+        }
+        table#tbl-retry-btn td {
+            padding: 0px 15px 0px 15px;
+            vertical-align: top;
+            padding-top: 5px;
+        }
+        .auto-click-msg {
+            color: blue;
+        }
+        .info-msg {
+            font-size: 13px;
+            text-align: left;
+        }
+        ul.evt-text-list {
+            margin: 0;
+            font-size: 13px;
+            color: #454545;
+            font-weight: 550;
+        }
+        ul.evt-text-list li {
+            margin-top: 20px;
+        }
+        .rt-button {
+            width: 345px;
+            height: 110px;
+        }
+        .rt-button:disabled {
+            color: #CBCBCB;
+        }
+        #to-hot-event-btn {
+            font-size: 16px;
+        }
+        #to-other-event-btn {
+            font-size: 18px;
+        }
+        .underline-div {
+            border-bottom: 1px solid black;
+        }
+        .reminder {
+            font-size: 13px;
+            color: #454545;
+        }
+        .event-text {
+            font-size: 13px;
+            color: #454545;
+        }
+        table.tbl-lv1 td.auto-count-down-row {
+            color: blue;
+            font-size: 18px;
+            text-align: center;
+            padding: 30px 5px 30px 5px;
+        }
+        .point-list-tbl td {
+            vertical-align: top;
+            font-size: 13px;
+        }
+        .point-list-tbl td.number {
+            width: 25px;
+        }
+        .footer-line1 {
+            font-size: 14px;
+        }
+        .footer-line2 {
+            font-size: 10px;
+        }
+        hr.dotted {
+            border-color: #d8d8d8;
+            border-width: thin;
+            border-style: dotted;
+        }
+        .italic {
+            font-style: italic;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+        .red {
+            color: red;
+        }
+        .top-gap1 {
+            margin-top: 30px !important;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="pgbody top-gap1">
+    <span class="header">URBTIX 城市售票網</span>
+</div>
+
+<table class="tbl-lv1 top-gap1">
+    <tr>
+        <td class="page-title">
+            <div class="underline-div">等候登入 Waiting for access </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="event-text">
+            <br>
+            <b>系統正在正常運作</b>，但所有網上購票連結正由其他顧客使用中。為讓系統更有效處理購買不同節目的顧客需求，請在<b>以下兩個選項中，選擇其一</b>，再次嘗試進入購票網站。<br>
+            <b>System is working normally</b> but all Internet ticketing slots are currently taken up by customers. To facilitate the system to more effectively handle customers’ purchase requests for different events, please <b>choose one of the following two options</b> to try access to the ticket purchase website again.</b>
+        </td>
+    </tr>
+
+    <tr id="retry-btn-row">
+        <td>
+            <table id="tbl-retry-btn">
+                <tr>
+                    <td>
+                        <button id="to-hot-event-btn" class="rt-button" type="button" disabled="disabled" onclick="javascript:retryHotPage()">
+                        </button>
+                    </td>
+                    <td>
+                        <button id="to-other-event-btn" class="rt-button" type="button" disabled="disabled" onclick="javascript:retryOtherPage()">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p id="autoClickHotEvtMsg" class="auto-click-msg" style="display:none;">
+                            <span id="hotRemainTime2">3</span>秒後自動點擊。<br/>
+                            Autoclick in <span id="hotRemainTime1">3</span> sec.
+                        </p>
+                    </td>
+                    <td>
+                        <p id="autoClickOtherEvtMsg" class="auto-click-msg" style="display:none;">
+                            <span id="otherRemainTime2">3</span>秒後自動點擊。<br/>
+                            Autoclick in <span id="otherRemainTime1">3</span> sec.
+                        </p>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="reminder">
+            注意Note：
+            <table class="point-list-tbl">
+                <tr>
+                    <td class="number">(1)</td>
+                    <td>
+                        <b>使用鍵盤上的更新按鍵</b>（例如在使用「視窗」的個人電腦鍵盤上按<span class="red bold">「F5」按鍵</span>）只能更新此頁面，但<span class="red bold">不能連結購票網站</span>。<br>
+                        <b>Pressing refresh key on the keyboard</b> (e.g. <span class="red bold">“F5” key</span> for PC running Windows) can only refresh this page but <span class="red bold">cannot access to the ticket purchase website</span>.
+                    </td>
+                </tr>
+                <tr>
+                    <td class="number">(2)</td>
+                    <td>
+                        如顧客自行<b>使用自動程式不斷快速重試</b>登入購票網站或會被系統視為惡意程式而<b>封鎖</b>。<br>
+                        <b>Automated programme</b> used by patrons for speedy retry of access to the ticket purchase website may be <b>blocked</b> by the system as malware.
+                    </td>
+                </tr>
+            </table>
+            <br>
+
+            <p class="info-msg">
+            <div id="perf-name-blk" class="bold">
+            </div>
+            香港體育館 (紅館) Hong Kong Coliseum / <span id="perf-date-blk"></span><br>
+            門票開售日期 Ticket sale starts: <span id="sales-date-blk" class="bold"></span></b>
+            <br>
+            <br>
+            共<span id="num-of-perf-cht-blk"></span>場演出，約<span id="num-of-ticket-cht-blk"></span>門票於城市售票網公開發售<br>
+            A total of <span id="num-of-perf-eng-blk"></span> performances with about <span id="num-of-ticket-eng-blk"></span> tickets are available for public sale at URBTIX<br>
+
+            </p>
+
+            <p><u><b><font color="blue">門票以英文全名實名登記方式發售</font></b></u>。持票人入場時須出示與門票所示姓名相同且附有與持票人樣貌相符相片的身份證明文件，以便核對身份，否則將被拒入場，而所繳款項亦不獲退還。持票人不得擅改門票資料或轉讓門票予他人使用。<br><br>
+                若購買多於一張門票，購票者<u><b><font color="blue">須同時提供另一持票人的英文全名</font></b></u>，該另一持票人的姓名亦須與其附有相片的身份證明文件上的姓名一致供入場時核對。
+            </p>
+            <p>
+                <u><b><font color="blue">Real-name registration in English full-name is required for the tickets</font></b></u>.  Ticket holder must present proof of identity with photo which is consistent with the name printed on the ticket and appearance of the ticket holder for identification on entry, or else admission will be denied and no refund will be made.  Tickets are non-transferrable and any unauthorised amendment to the information as printed on the tickets are prohibited. <br><br>
+                If more than one ticket is purchased, the <u><b><font color="blue">English full-name of another ticket holder to be printed on the ticket must also be provided during purchase</font></b></u>.  The name of another ticket holder must also match his/her photo ID for verification upon admission. 				</p>
+
+            <p id="all-soldout-msg-blk" class="info-msg bold hidden">
+                以上節目的門票已售罄<br>
+                Tickets of the above event are sold out
+            </p>
+
+
+            <div id="current-sold-status-blk" class="info-msg hidden">
+                <div class="bold underline">門票銷售情況Ticket sale update</div>
+                <div id="current-sold-status-update-time" class="red hidden"></div>
+                <ul>
+                    <li>以上<span id="num-of-perf-cht-blk2"></span>場演出尚餘可供購買門票數目No. of tickets still available for sale for the above <span id="num-of-perf-eng-blk2"></span> performances: <span id="ticket-sale-update-blk">有待更新 To be updated</span></li>
+                    <li>已售罄的場次Sold-out performance(s)： <span id="soldout-perf-blk">有待更新 To be updated</span></li>
+                </ul>
+
+                <div class="italic">
+                    （<span id="update-start-from-msg-cht"></span><span id="update-interval-msg-cht" class="bold"></span>。）
+                </div>
+                <div class="italic">
+                    (The above information will be <span id="update-interval-msg-eng" class="bold"></span> <span id="update-start-from-msg-eng"></span>.）
+                </div>
+                <br>
+            </div>
+
+            <p class="info-msg">
+                您亦可使用信用卡電話訂票熱線（852）2111 5999（每日上午十時至晚上八時）購票（<span class="bold">請注意：<span id="event-name-cht-blk"></span><span class="underline">不設</span>售票處售票</span>）。<br>
+                You may also use our credit card telephone booking hotline at (852) 2111 5999 (from 10 am to 8 pm daily)(<span class="bold">Note: there is <span id="noted-infro-eng-blk" class="underline">no</span> counter booking for <span id="event-name-eng-blk"></span></span>).
+            </p>
+        </td>
+    </tr>
+</table>
+
+<div class="pgbody top-gap1">
+    <hr class="dotted">
+    <div class="footer-line1">Enquiries Hotline / 查詢熱線 (852) 2314 4228</div>
+    <div class="footer-line2 top-gap1">
+        URBTIX ticketing services provided and operated by Cityline<br>
+        (c) Cityline (Hong Kong) Ltd 1998 - <script>document.write((new Date()).getFullYear());</script>. All rights reserved.
+    </div>
+</div>
+
+<script>
+    setCustomPerfText();
+</script>
+</body>
+</html>
