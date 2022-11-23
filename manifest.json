@@ -1,12 +1,20 @@
 {
   "name": "Mirror Helper",
-  "description": "WE.WILL next time.",
+  "description": "F54U",
   "version": "1.0",
   "manifest_version": 3,
   "permissions": ["activeTab", "scripting"],
   "content_scripts": [
     {
-      "matches": ["https://*.urbtix.hk/*","http://*.urbtix.hk/*"],
+      "matches": ["https://urbtix.hk/*","http://urbtix.hk/*","https://*.urbtix.hk/*","http://*.urbtix.hk/*"],
+      "js": ["main.js"]
+    },
+    {
+      "matches": ["https://cityline.com/*","http://cityline.com/*","https://*.cityline.com/*","http://*.cityline.com/*"],
+      "js": ["main.js"]
+    },
+    {
+      "matches": ["https://hkticketing.com/*","http://hkticketing.com/*","https://*.hkticketing.com/*","http://*.hkticketing.com/*"],
       "js": ["main.js"]
     }
   ]
