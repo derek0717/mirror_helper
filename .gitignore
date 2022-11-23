@@ -106,5 +106,5 @@ dist
 .idea/
 *.iml
 
-drafts/
-drafts/*
+draft/
+draft/*
