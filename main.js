@@ -27,13 +27,13 @@ try {
         console.log('c1');
         switch(Math.random()%3){
             case(0):
-                location.href = 'https://access.cityline.com/utsvInternet/PU20BP23/login';
+                location.href = 'https://event.cityline.com/utsvInternet/PU20BP23/login';
                 break;
             case(1):
                 location.href = 'https://venue.cityline.com/utsvInternet/PU20BP23/login';
                 break;
             default:
-                location.href = 'https://event.cityline.com/utsvInternet/PU20BP23/login';
+                location.href = 'https://access.cityline.com/utsvInternet/PU20BP23/login';
         }
     }
 } catch (e) {
