@@ -13,6 +13,7 @@ try {
         console.log('t2');
         location.href = 'https://entry-hotshow.hkticketing.com/';
     } else if (window.location.href.includes('premier.hkticketing.com/shows/show')) {
+        console.log('t3');
         if (document.querySelector('h1').innerHTML.includes('系統現正繁忙')) {
             location.href = 'http://entry-hotshow.hkticketing.com/';
         }
