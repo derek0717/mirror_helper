@@ -6,8 +6,7 @@ try {
         location.href = 'http://www.hkticketing.com/';
     }else if (window.location.href.includes('queue.hkticketing.com/hotshow')) {
         console.log('t2');
-        // location.href = 'https://entry-hotshow.hkticketing.com/';
-        location.href = 'https://premier.hkticketing.com/shows/show.aspx?sh=REVIS1222';
+        location.href = 'https://entry-hotshow.hkticketing.com/';
     // }else if (window.location.href.includes('premier.hkticketing.com')) {
     //     console.log('t hins live');
     //     location.href = 'https://premier.hkticketing.com/shows/show.aspx?sh=REVIS1222';
